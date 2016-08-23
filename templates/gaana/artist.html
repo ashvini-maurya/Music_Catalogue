@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+    {% block body_block %}
+        {% if artist %}
+            <h1>{{ artist_name }}</h1>
+                {% if songs %}
+                    <ul>
+                        {% for song in songs %}
+                        <li><a href="{{ song.url }}">{{ song.release_label }}</a> </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <strong>No songs in Artist list.</strong>
+                {% endif %}
+        {% else %}
+            The specified artist {{ artist_name }} does not exist!!
+        {% endif %}
+    {% endblock %}
