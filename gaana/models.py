@@ -18,20 +18,16 @@ class Artist(models.Model):
 
 
 class Song(models.Model):
-    artist = models.ForeignKey(Artist)
+    artists = models.ManyToManyField(Artist)
     track = models.CharField(max_length=128, blank=True)
     album = models.CharField(max_length=128, blank=True)
-    release_year = models.DateTimeField()
+    release_year = models.IntegerField()
     release_label = models.CharField(max_length=128)
     genre = models.CharField(max_length=128, blank=True)
 
 
-    # def get_year(self):
-    #     return self.release_year.year
-
     def __unicode__(self):
         return self.release_label
-
 
 
 class UserProfile(models.Model):
@@ -40,3 +36,22 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return self.user.username
+
+
+class Playlist(models.Model):
+    name = models.CharField(max_length=100, null=True, blank=True)
+    #login = models.ForeignKey(User, null=True, blank=True)
+    user = models.ForeignKey(User, null=True)
+    song = models.ForeignKey(Song, null=True)
+
+    def __unicode__(self):
+        self.name
+
+
+class Like(models.Model):
+    likes = models.IntegerField(default=0)
+    user = models.ForeignKey(User)
+    song = models.ForeignKey(Song)
+
+    def __unicode__(self):
+        self.likes

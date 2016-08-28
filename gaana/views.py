@@ -6,6 +6,8 @@ from gaana.forms import UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+# from gaana.forms import SongForm
+from gaana.forms import PlaylistForm
 
 
 # from gaana.models import Song
@@ -86,3 +88,27 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/gaana/')
+
+
+@login_required
+def create_playlist(request):
+    if request.method == "POST":
+        playlist_name = PlaylistForm(request.POST)
+        print playlist_name
+        print "AAAAAAAAAAAAAAAAAAA"
+        #count = PlaylistForm().object.filter(name=playlist_name).count()
+        #print count
+        if playlist_name.is_valid():
+        #if playlist_name != "": #and count == 0:
+            #p = PlaylistForm(login_id=request.user.id, name=playlist_name)
+            #p = PlaylistForm()
+            #p.save()
+            playlist_name.save(commit=True)
+            return index(request)
+        else:
+            #print(playlist_name.errors)
+            return HttpResponse("Either playlist id wrong or Playlist name already exists.")
+    else:
+        form = PlaylistForm()
+
+    return render(request, 'gaana/create_playlist.html', {'form': form})

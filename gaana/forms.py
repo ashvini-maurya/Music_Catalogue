@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from gaana.models import UserProfile
+from gaana.models import Playlist
 
 
 class UserForm(forms.ModelForm):
@@ -24,3 +25,16 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('picture', )
+
+
+
+class PlaylistForm(forms.ModelForm):
+    name = forms.CharField(max_length=128)
+
+    class Meta:
+        model = Playlist
+        fields = ('name', )
+
+
+# class PlaylistForm(forms.Form):
+#     playlist_name = forms.CharField(label='Create Playlist', max_length=100)
