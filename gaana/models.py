@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
+import datetime
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Artist(models.Model):
@@ -18,10 +20,10 @@ class Artist(models.Model):
 
 
 class Song(models.Model):
-    artists = models.ManyToManyField(Artist)
+    artist = models.ManyToManyField(Artist)
     track = models.CharField(max_length=128, blank=True)
     album = models.CharField(max_length=128, blank=True)
-    release_year = models.IntegerField()
+    release_year = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(datetime.datetime.now().year)])
     release_label = models.CharField(max_length=128)
     genre = models.CharField(max_length=128, blank=True)
 
@@ -40,7 +42,6 @@ class UserProfile(models.Model):
 
 class Playlist(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
-    #login = models.ForeignKey(User, null=True, blank=True)
     user = models.ForeignKey(User, null=True)
     song = models.ForeignKey(Song, null=True)
 
