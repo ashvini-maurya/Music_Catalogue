@@ -41,12 +41,12 @@ class UserProfile(models.Model):
 
 
 class Playlist(models.Model):
-    name = models.CharField(max_length=100, null=True, blank=True)
+    name = models.CharField(max_length=100)
     user = models.ForeignKey(User, null=True)
     song = models.ForeignKey(Song, null=True)
 
     def __unicode__(self):
-        self.name
+        return self.name
 
 
 class Like(models.Model):
@@ -55,4 +55,4 @@ class Like(models.Model):
     song = models.ForeignKey(Song)
 
     def __unicode__(self):
-        self.likes
+        return self.likes
